@@ -68,10 +68,10 @@ As an automation author, I can rely on stable issue document rules so scripts an
 ### Edge Cases
 
 - Concurrent issue creation generating the same next numeric id MUST return an explicit ID conflict error and require retry.
-- How does the system behave when an issue filename id does not match front matter id?
-- What happens when comment numbering has gaps (for example, `0001.md`, `0003.md`)?
+- If an issue filename id does not match front matter `id`, validation MUST fail with a path-mismatch error and list operations MUST report the file as malformed.
+- If comment numbering has gaps (for example, `0001.md`, `0003.md`), existing comments remain valid and the next created comment id MUST be `max(existing)+1`.
 - Listing returns valid issues and reports malformed Markdown files in `issues/` as warnings/errors.
-- What happens when a user attempts an invalid lifecycle transition (for example, `closed` to `in_progress` without reopening)?
+- Invalid lifecycle transitions (for example, `closed` to `in_progress` without reopening) MUST fail with actionable validation errors.
 - Validation rejects unknown top-level metadata keys that do not start with `x_`.
 
 ## Requirements *(mandatory)*
@@ -87,7 +87,7 @@ As an automation author, I can rely on stable issue document rules so scripts an
 - **FR-007**: System MUST update `updated_at` on any change to issue metadata, status, title, or body.
 - **FR-008**: System MUST store comments as separate Markdown files under `comments/<issue-id>/` with sequential numeric comment identifiers.
 - **FR-009**: System MUST parse and validate YAML front matter and report deterministic, actionable validation errors for invalid documents.
-- **FR-010**: System MUST preserve deterministic write behavior to minimize unnecessary diffs for semantically identical changes.
+- **FR-010**: System MUST preserve deterministic write behavior by enforcing canonical front matter key order, UTF-8 encoding, `\n` line endings, and trailing newline so semantically identical changes produce byte-identical output.
 - **FR-011**: System MUST treat generated indexes or caches as non-canonical artifacts and keep issue/comment files as the source of truth.
 - **FR-012**: System MUST provide compatibility classification for schema updates (breaking vs non-breaking) and require migration guidance for breaking changes.
 - **FR-013**: If web interface work begins in later phases, system MUST enforce the same issue lifecycle and validation rules used by CLI.
@@ -143,7 +143,7 @@ As an automation author, I can rely on stable issue document rules so scripts an
 
 ### Measurable Outcomes
 
-- **SC-001**: 95% of first-time users can create and close an issue from CLI in under 3 minutes using project documentation.
+- **SC-001**: 95% of first-time users can create and close an issue from CLI in under 3 minutes using project documentation, measured via timed integration/usability trial protocol.
 - **SC-002**: 100% of issue files produced by standard create/edit flows pass validation checks.
 - **SC-003**: Validation reports identify invalid issue documents with specific field-level error messages in 100% of malformed test cases.
 - **SC-004**: In acceptance testing, users can complete the full lifecycle (`open` → `in_progress` → `closed` → `open`) without manual file edits in 100% of trials.
