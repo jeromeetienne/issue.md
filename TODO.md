@@ -1,3 +1,5 @@
+- feature: smooth terminal UX with menu and auto-completion
+- feature: website in next.js + simple API server on top of issue-md to provide a web interface for issue-md
 - clean the code
 - see about creating a new feature branch for the new features
   - the website in next.js
