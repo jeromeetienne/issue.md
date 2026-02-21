@@ -21,7 +21,11 @@ In repository settings:
 2. Set **Build and deployment** source to **GitHub Actions**
 
 ## 3) Merge docs changes to default branch
-Push or merge changes that affect website docs and deployment config.
+Push or merge changes to one of these paths:
+
+- `contribs/website_docs/**`
+- `.github/workflows/website-docs-pages.yml`
+
 Expected outcome:
 - Website Pages workflow starts automatically.
 
@@ -41,6 +45,7 @@ Open the published URL and verify:
 - `/docs` loads
 - `/demo` loads
 - core styles and GitHub icon render without missing assets
+- deployment summary includes triggering commit SHA and freshness assertion note
 
 ## 6) Troubleshooting quick checks
 - If workflow cannot deploy: verify workflow permissions include Pages + ID token write.

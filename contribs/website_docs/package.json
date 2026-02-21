@@ -5,6 +5,8 @@
     "scripts": {
         "dev": "next dev",
         "build": "next build",
+        "build:pages": "next build && node scripts/verify-pages-routes.mjs",
+        "verify:pages": "node scripts/verify-pages-routes.mjs",
         "start": "next start"
     },
     "dependencies": {

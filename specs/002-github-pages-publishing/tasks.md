@@ -11,9 +11,9 @@
 
 **Purpose**: Establish shared project scaffolding for Pages publishing work.
 
-- [ ] T001 Create GitHub Pages workflow file scaffold in .github/workflows/website-docs-pages.yml
-- [ ] T002 Add Pages-oriented npm scripts (`build:pages`, `verify:pages`) in contribs/website_docs/package.json
-- [ ] T003 [P] Create static route/asset verification script scaffold in contribs/website_docs/scripts/verify-pages-routes.mjs
+- [X] T001 Create GitHub Pages workflow file scaffold in .github/workflows/website-docs-pages.yml
+- [X] T002 Add Pages-oriented npm scripts (`build:pages`, `verify:pages`) in contribs/website_docs/package.json
+- [X] T003 [P] Create static route/asset verification script scaffold in contribs/website_docs/scripts/verify-pages-routes.mjs
 
 ---
 
@@ -23,12 +23,12 @@
 
 **⚠️ CRITICAL**: No user story work can begin until this phase is complete.
 
-- [ ] T004 Configure static export mode and repository path variables in contribs/website_docs/next.config.ts
-- [ ] T005 Implement workflow build job (checkout, node setup, install, export build) in .github/workflows/website-docs-pages.yml
-- [ ] T006 Implement workflow artifact upload and Pages deploy jobs with required permissions in .github/workflows/website-docs-pages.yml
-- [ ] T007 Implement route HTML assertions for `/`, `/docs`, and `/demo` in contribs/website_docs/scripts/verify-pages-routes.mjs
-- [ ] T008 Wire verification script execution into `build:pages` command in contribs/website_docs/package.json
-- [ ] T009 Document foundational environment assumptions for Pages publishing in contribs/website_docs/README.md
+- [X] T004 Configure static export mode and repository path variables in contribs/website_docs/next.config.ts
+- [X] T005 Implement workflow build job (checkout, node setup, install, export build) in .github/workflows/website-docs-pages.yml
+- [X] T006 Implement workflow artifact upload and Pages deploy jobs with required permissions in .github/workflows/website-docs-pages.yml
+- [X] T007 Implement route HTML assertions for `/`, `/docs`, and `/demo` in contribs/website_docs/scripts/verify-pages-routes.mjs
+- [X] T008 Wire verification script execution into `build:pages` command in contribs/website_docs/package.json
+- [X] T009 Document foundational environment assumptions for Pages publishing in contribs/website_docs/README.md
 
 **Checkpoint**: Foundation ready; user story implementation can now begin.
 
@@ -42,11 +42,11 @@
 
 ### Implementation for User Story 1
 
-- [ ] T010 [US1] Configure workflow triggers for default-branch push and manual dispatch with website/path filters in .github/workflows/website-docs-pages.yml
-- [ ] T011 [US1] Set website build working directory and deploy artifact path (`contribs/website_docs/out`) in .github/workflows/website-docs-pages.yml
-- [ ] T012 [US1] Add deployment environment URL output and run summary details in .github/workflows/website-docs-pages.yml
-- [ ] T013 [P] [US1] Add operator verification steps for workflow success/failure in specs/002-github-pages-publishing/quickstart.md
-- [ ] T014 [US1] Add deployed-versus-triggering commit SHA freshness assertion in .github/workflows/website-docs-pages.yml
+- [X] T010 [US1] Configure workflow triggers for default-branch push and manual dispatch with website/path filters in .github/workflows/website-docs-pages.yml
+- [X] T011 [US1] Set website build working directory and deploy artifact path (`contribs/website_docs/out`) in .github/workflows/website-docs-pages.yml
+- [X] T012 [US1] Add deployment environment URL output and run summary details in .github/workflows/website-docs-pages.yml
+- [X] T013 [P] [US1] Add operator verification steps for workflow success/failure in specs/002-github-pages-publishing/quickstart.md
+- [X] T014 [US1] Add deployed-versus-triggering commit SHA freshness assertion in .github/workflows/website-docs-pages.yml
 
 **Checkpoint**: User Story 1 is independently functional and deployable.
 
@@ -60,11 +60,11 @@
 
 ### Implementation for User Story 2
 
-- [ ] T015 [US2] Configure repository-scoped `basePath` and `assetPrefix` behavior in contribs/website_docs/next.config.ts
-- [ ] T016 [P] [US2] Confirm public route contract for `/`, `/docs`, `/demo` in specs/002-github-pages-publishing/contracts/pages-site.openapi.yaml
-- [ ] T017 [US2] Update header/documentation links for repository-path-safe navigation assumptions in contribs/website_docs/app/layout.tsx
-- [ ] T018 [US2] Add CSS/icon/static asset existence checks to publish verifier in contribs/website_docs/scripts/verify-pages-routes.mjs
-- [ ] T019 [P] [US2] Document route and asset verification command usage in contribs/website_docs/README.md
+- [X] T015 [US2] Configure repository-scoped `basePath` and `assetPrefix` behavior in contribs/website_docs/next.config.ts
+- [X] T016 [P] [US2] Confirm public route contract for `/`, `/docs`, `/demo` in specs/002-github-pages-publishing/contracts/pages-site.openapi.yaml
+- [X] T017 [US2] Update header/documentation links for repository-path-safe navigation assumptions in contribs/website_docs/app/layout.tsx
+- [X] T018 [US2] Add CSS/icon/static asset existence checks to publish verifier in contribs/website_docs/scripts/verify-pages-routes.mjs
+- [X] T019 [P] [US2] Document route and asset verification command usage in contribs/website_docs/README.md
 
 **Checkpoint**: User Stories 1 and 2 both work independently.
 
@@ -78,10 +78,10 @@
 
 ### Implementation for User Story 3
 
-- [ ] T020 [US3] Add one-time GitHub Pages enablement instructions in contribs/website_docs/README.md
-- [ ] T021 [US3] Add deployment status checks and rerun steps in contribs/website_docs/README.md
-- [ ] T022 [US3] Add troubleshooting guidance for disabled Pages, permission errors, and path-based 404s in contribs/website_docs/README.md
-- [ ] T023 [P] [US3] Align maintainer quickstart with final operational workflow in specs/002-github-pages-publishing/quickstart.md
+- [X] T020 [US3] Add one-time GitHub Pages enablement instructions in contribs/website_docs/README.md
+- [X] T021 [US3] Add deployment status checks and rerun steps in contribs/website_docs/README.md
+- [X] T022 [US3] Add troubleshooting guidance for disabled Pages, permission errors, and path-based 404s in contribs/website_docs/README.md
+- [X] T023 [P] [US3] Align maintainer quickstart with final operational workflow in specs/002-github-pages-publishing/quickstart.md
 
 **Checkpoint**: All user stories are independently functional and operationally documented.
 
@@ -91,9 +91,9 @@
 
 **Purpose**: Final consistency pass across workflow, docs, and feature artifacts.
 
-- [ ] T024 [P] Reconcile final branch/path/URL terminology across spec and plan in specs/002-github-pages-publishing/spec.md and specs/002-github-pages-publishing/plan.md
-- [ ] T025 [P] Execute quickstart validation pass and record expected outcomes (including SC measurement windows) in specs/002-github-pages-publishing/quickstart.md
-- [ ] T026 Finalize maintainer publishing section and public URL references in contribs/website_docs/README.md
+- [X] T024 [P] Reconcile final branch/path/URL terminology across spec and plan in specs/002-github-pages-publishing/spec.md and specs/002-github-pages-publishing/plan.md
+- [X] T025 [P] Execute quickstart validation pass and record expected outcomes (including SC measurement windows) in specs/002-github-pages-publishing/quickstart.md
+- [X] T026 Finalize maintainer publishing section and public URL references in contribs/website_docs/README.md
 
 ---
 

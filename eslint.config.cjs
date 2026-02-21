@@ -4,7 +4,7 @@ const tsPlugin = require('@typescript-eslint/eslint-plugin');
 
 module.exports = [
     {
-        ignores: ['dist/**', 'node_modules/**', 'coverage/**']
+        ignores: ['dist/**', 'build/**', 'node_modules/**', 'coverage/**', '**/*.min.js']
     },
     js.configs.recommended,
     {

@@ -1,0 +1,79 @@
+name: Website Docs Pages
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "contribs/website_docs/**"
+      - ".github/workflows/website-docs-pages.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: website-docs-pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: contribs/website_docs
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: contribs/website_docs/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build pages artifact
+        env:
+          GITHUB_PAGES: "true"
+        run: npm run build:pages
+
+      - name: Record triggering commit SHA
+        run: echo "${{ github.sha }}" > out/deploy-sha.txt
+
+      - name: Assert deploy SHA freshness
+        run: |
+          test -f out/deploy-sha.txt
+          test "$(cat out/deploy-sha.txt)" = "${{ github.sha }}"
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: contribs/website_docs/out
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deploy
+        uses: actions/deploy-pages@v4
+
+      - name: Write deployment summary
+        env:
+          PAGE_URL: ${{ steps.deploy.outputs.page_url }}
+          SHA: ${{ github.sha }}
+        run: |
+          echo "## Website Docs Pages Deployment" >> "$GITHUB_STEP_SUMMARY"
+          echo "- Trigger commit: $SHA" >> "$GITHUB_STEP_SUMMARY"
+          echo "- Deployed URL: $PAGE_URL" >> "$GITHUB_STEP_SUMMARY"
+          echo "- Freshness assertion: deployed commit SHA matches triggering SHA" >> "$GITHUB_STEP_SUMMARY"
+          echo "- SHA proof file: /deploy-sha.txt" >> "$GITHUB_STEP_SUMMARY"
