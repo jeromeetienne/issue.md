@@ -1,3 +1,5 @@
+import { promises as fs } from 'node:fs';
+import { join } from 'node:path';
 import { describe, expect, it } from 'vitest';
 import { createIssue } from '../../src/application/use-cases/issue/create-issue.js';
 import { listIssues } from '../../src/application/use-cases/issue/list-issues.js';
@@ -13,9 +15,13 @@ describe('issue lifecycle integration', () => {
 		const root = await makeTempWorkspace();
 		const created = await createIssue({ rootDir: root, title: 'A title', body: 'Body', author: 'alice' });
 		expect(created.metadata.id).toBe('0001');
+		expect(created.path.endsWith('issues/0001-a-title.md')).toBe(true);
 
 		const updated = await updateIssue(root, '0001', { title: 'B title', body: 'B body' });
 		expect(updated.metadata.title).toBe('B title');
+		expect(updated.path.endsWith('issues/0001-b-title.md')).toBe(true);
+		await expect(fs.stat(join(root, 'issues', '0001-a-title.md'))).rejects.toThrow();
+		await expect(fs.stat(join(root, 'issues', '0001-b-title.md'))).resolves.toBeDefined();
 
 		const movedToInProgress = await updateIssue(root, '0001', { status: 'in_progress' });
 		expect(movedToInProgress.metadata.status).toBe('in_progress');

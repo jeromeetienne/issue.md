@@ -1,6 +1,6 @@
 import { promises as fs } from 'node:fs';
 import { basename, join } from 'node:path';
-import { NotFoundError, ValidationError } from '../../shared/errors/errors.js';
+import { ConflictError, NotFoundError, ValidationError } from '../../shared/errors/errors.js';
 import type { IssueMetadata, FileWarning } from '../../domain/schema/types.js';
 import { parseMarkdownDocument, stringifyMarkdownDocument } from '../markdown/document-codec.js';
 import { validateIssue } from '../validation/schema-validator.js';
@@ -17,6 +17,20 @@ export interface IssueRecord {
 
 export class IssueRepository {
 	constructor(private readonly rootDir: string) {}
+
+	private async assertPathAvailable(fullPath: string): Promise<void> {
+		try {
+			await fs.access(fullPath);
+			throw new ConflictError(`ID conflict for path ${fullPath}. Retry create command.`);
+		} catch (error: any) {
+			if (error instanceof ConflictError) {
+				throw error;
+			}
+			if (error?.code !== 'ENOENT') {
+				throw error;
+			}
+		}
+	}
 
 	private get issuesDir(): string {
 		return join(this.rootDir, 'issues');
@@ -61,7 +75,21 @@ export class IssueRepository {
 		if (!basename(current.path).startsWith(expectedPrefix)) {
 			throw new ValidationError('Issue path mismatch during update');
 		}
+
+		const nextPath = buildIssuePath(
+			this.issuesDir,
+			next.metadata.id,
+			slugifyTitle(next.metadata.title)
+		);
 		const content = stringifyMarkdownDocument(next.metadata, next.body);
+
+		if (nextPath !== current.path) {
+			await this.assertPathAvailable(nextPath);
+			await fs.rename(current.path, nextPath);
+			await atomicWriteFile(nextPath, content);
+			return { ...next, path: nextPath };
+		}
+
 		await atomicWriteFile(current.path, content);
 		return { ...next, path: current.path };
 	}
