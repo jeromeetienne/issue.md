@@ -19,5 +19,6 @@ const setStatus = async (rootDir: string, id: string, status: IssueStatus) => {
 	});
 };
 
+export const startIssue = (rootDir: string, id: string) => setStatus(rootDir, id, 'in_progress');
 export const closeIssue = (rootDir: string, id: string) => setStatus(rootDir, id, 'closed');
 export const reopenIssue = (rootDir: string, id: string) => setStatus(rootDir, id, 'open');

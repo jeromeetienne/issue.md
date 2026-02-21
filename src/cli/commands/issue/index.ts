@@ -2,7 +2,11 @@ import { Command } from 'commander';
 import { createIssue } from '../../../application/use-cases/issue/create-issue.js';
 import { listIssues } from '../../../application/use-cases/issue/list-issues.js';
 import { getIssue, updateIssue } from '../../../application/use-cases/issue/get-update-issue.js';
-import { closeIssue, reopenIssue } from '../../../application/use-cases/issue/change-issue-status.js';
+import {
+	startIssue,
+	closeIssue,
+	reopenIssue
+} from '../../../application/use-cases/issue/change-issue-status.js';
 import { runValidate } from './validate.js';
 
 export const buildIssueCommand = (): Command => {
@@ -49,6 +53,11 @@ export const buildIssueCommand = (): Command => {
 
 	issue.command('close <id>').action(async (id) => {
 		const result = await closeIssue(process.cwd(), id);
+		console.log(JSON.stringify(result, null, 2));
+	});
+
+	issue.command('start <id>').action(async (id) => {
+		const result = await startIssue(process.cwd(), id);
 		console.log(JSON.stringify(result, null, 2));
 	});
 

@@ -10,32 +10,32 @@
 
 ## Scope
 ### Included changes
-- [ ] Add `startIssue(rootDir, id)` use-case helper
-- [ ] Add CLI command `issue start <id>`
-- [ ] Extend lifecycle integration test for in_progress step
+- [x] Add `startIssue(rootDir, id)` use-case helper
+- [x] Add CLI command `issue start <id>`
+- [x] Extend lifecycle integration test for in_progress step
 
 ### Explicitly out of scope
 - [ ] No title-rename canonical path work
 - [ ] No validate command/report changes
 
 ## Files Touched
-- [ ] src/application/use-cases/issue/change-issue-status.ts
-- [ ] src/cli/commands/issue/index.ts
-- [ ] tests/integration/issue-cli.lifecycle.test.ts
+- [x] src/application/use-cases/issue/change-issue-status.ts
+- [x] src/cli/commands/issue/index.ts
+- [x] tests/integration/issue-cli.lifecycle.test.ts
 
 ## Requirements Mapping
 - [ ] FR-006
 - [ ] SC-004
 
 ## Implementation Checklist
-- [ ] Uses existing transition guard logic
+- [x] Uses existing transition guard logic
 - [ ] Keeps close/reopen behavior unchanged
 - [ ] Returns actionable error on invalid transition
 
 ## Test Checklist
-- [ ] Integration test includes `open -> in_progress -> closed -> open`
-- [ ] `npm test` passes
+- [x] Integration test includes `open -> in_progress -> closed -> open`
+- [x] `npm test` passes
 
 ## Acceptance Criteria
-- [ ] Status changes to `in_progress` via CLI/use-case
-- [ ] Transition guard remains active
+- [x] Status changes to `in_progress` via CLI/use-case
+- [x] Transition guard remains active

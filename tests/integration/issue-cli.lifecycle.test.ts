@@ -1,7 +1,11 @@
 import { describe, expect, it } from 'vitest';
 import { createIssue } from '../../src/application/use-cases/issue/create-issue.js';
 import { listIssues } from '../../src/application/use-cases/issue/list-issues.js';
-import { closeIssue, reopenIssue } from '../../src/application/use-cases/issue/change-issue-status.js';
+import {
+	startIssue,
+	closeIssue,
+	reopenIssue
+} from '../../src/application/use-cases/issue/change-issue-status.js';
 import { getIssue, updateIssue } from '../../src/application/use-cases/issue/get-update-issue.js';
 import { makeTempWorkspace } from './helpers.js';
 
@@ -13,6 +17,9 @@ describe('issue lifecycle integration', () => {
 
 		const updated = await updateIssue(root, '0001', { title: 'B title', body: 'B body' });
 		expect(updated.metadata.title).toBe('B title');
+
+		const started = await startIssue(root, '0001');
+		expect(started.metadata.status).toBe('in_progress');
 
 		const closed = await closeIssue(root, '0001');
 		expect(closed.metadata.status).toBe('closed');
