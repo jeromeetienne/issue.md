@@ -9,6 +9,15 @@
     "chat.tools.terminal.autoApprove": {
         ".specify/scripts/bash/": true,
         ".specify/scripts/powershell/": true
+    },
+    "editor.formatOnSave": true,
+    "editor.detectIndentation": false,
+    "[typescript]": {
+        "editor.insertSpaces": false,
+        "editor.tabSize": 8
+    },
+    "[typescriptreact]": {
+        "editor.insertSpaces": false,
+        "editor.tabSize": 8
     }
 }
-

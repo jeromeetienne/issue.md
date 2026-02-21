@@ -1,0 +1,287 @@
+openapi: 3.0.3
+info:
+  title: Issue.md API Contract (Parity Target)
+  version: 0.1.0
+  description: |
+    REST contract for issue/comment operations. CLI is MVP; this contract defines
+    parity-ready behavior for future web/API interfaces.
+servers:
+  - url: http://localhost:3000
+paths:
+  /issues:
+    get:
+      summary: List issues
+      operationId: listIssues
+      responses:
+        '200':
+          description: Valid issues returned with non-blocking file warnings.
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [issues, warnings]
+                properties:
+                  issues:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/IssueSummary'
+                  warnings:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/FileWarning'
+    post:
+      summary: Create issue
+      operationId: createIssue
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateIssueRequest'
+      responses:
+        '201':
+          description: Issue created.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Issue'
+        '409':
+          description: Sequential ID collision.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /issues/{id}:
+    parameters:
+      - $ref: '#/components/parameters/IssueId'
+    get:
+      summary: Get issue details
+      operationId: getIssue
+      responses:
+        '200':
+          description: Issue detail.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Issue'
+        '404':
+          description: Issue not found.
+    patch:
+      summary: Edit issue content/metadata
+      operationId: updateIssue
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateIssueRequest'
+      responses:
+        '200':
+          description: Updated issue.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Issue'
+        '400':
+          description: Validation error.
+  /issues/{id}/close:
+    post:
+      summary: Close issue
+      operationId: closeIssue
+      parameters:
+        - $ref: '#/components/parameters/IssueId'
+      responses:
+        '200':
+          description: Issue closed.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Issue'
+  /issues/{id}/reopen:
+    post:
+      summary: Reopen issue
+      operationId: reopenIssue
+      parameters:
+        - $ref: '#/components/parameters/IssueId'
+      responses:
+        '200':
+          description: Issue reopened.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Issue'
+  /issues/{id}/comments:
+    parameters:
+      - $ref: '#/components/parameters/IssueId'
+    get:
+      summary: List issue comments
+      operationId: listComments
+      responses:
+        '200':
+          description: Comment list sorted by id.
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [comments]
+                properties:
+                  comments:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Comment'
+    post:
+      summary: Add comment
+      operationId: addComment
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateCommentRequest'
+      responses:
+        '201':
+          description: Comment created.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Comment'
+components:
+  parameters:
+    IssueId:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: string
+        pattern: '^[0-9]{4,}$'
+  schemas:
+    IssueSummary:
+      type: object
+      required: [id, title, status, updated_at]
+      properties:
+        id:
+          type: string
+          pattern: '^[0-9]{4,}$'
+        title:
+          type: string
+        status:
+          type: string
+          enum: [open, in_progress, closed]
+        updated_at:
+          type: string
+          format: date-time
+          description: UTC timestamp with Z suffix.
+    Issue:
+      type: object
+      required: [id, title, status, created_at, updated_at, author, body]
+      properties:
+        id:
+          type: string
+          pattern: '^[0-9]{4,}$'
+        title:
+          type: string
+          minLength: 1
+        status:
+          type: string
+          enum: [open, in_progress, closed]
+        created_at:
+          type: string
+          format: date-time
+          description: UTC timestamp with Z suffix.
+        updated_at:
+          type: string
+          format: date-time
+          description: UTC timestamp with Z suffix.
+        author:
+          type: string
+          minLength: 1
+        body:
+          type: string
+        extensions:
+          type: object
+          additionalProperties: true
+          description: Maps `x_` prefixed extension keys.
+    Comment:
+      type: object
+      required: [id, issue_id, created_at, author, body]
+      properties:
+        id:
+          type: string
+          pattern: '^[0-9]{4,}$'
+        issue_id:
+          type: string
+          pattern: '^[0-9]{4,}$'
+        created_at:
+          type: string
+          format: date-time
+          description: UTC timestamp with Z suffix.
+        author:
+          type: string
+          minLength: 1
+        body:
+          type: string
+        extensions:
+          type: object
+          additionalProperties: true
+          description: Maps `x_` prefixed extension keys.
+    CreateIssueRequest:
+      type: object
+      required: [title, body, author]
+      properties:
+        title:
+          type: string
+          minLength: 1
+        body:
+          type: string
+        author:
+          type: string
+          minLength: 1
+        extensions:
+          type: object
+          additionalProperties: true
+    UpdateIssueRequest:
+      type: object
+      properties:
+        title:
+          type: string
+          minLength: 1
+        body:
+          type: string
+        status:
+          type: string
+          enum: [open, in_progress, closed]
+        extensions:
+          type: object
+          additionalProperties: true
+    CreateCommentRequest:
+      type: object
+      required: [body, author]
+      properties:
+        body:
+          type: string
+        author:
+          type: string
+          minLength: 1
+        extensions:
+          type: object
+          additionalProperties: true
+    FileWarning:
+      type: object
+      required: [path, code, message]
+      properties:
+        path:
+          type: string
+        code:
+          type: string
+          enum: [PARSE_ERROR, SCHEMA_ERROR, PATH_MISMATCH]
+        message:
+          type: string
+    ErrorResponse:
+      type: object
+      required: [code, message]
+      properties:
+        code:
+          type: string
+          example: ID_CONFLICT
+        message:
+          type: string
