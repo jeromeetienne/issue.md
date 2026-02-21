@@ -10,31 +10,31 @@
 
 ## Scope
 ### Included changes
-- [ ] Classify parse/front-matter failures as `PARSE_ERROR`
-- [ ] Keep metadata validation failures as `SCHEMA_ERROR`
-- [ ] Add warning-code test coverage
+- [x] Classify parse/front-matter failures as `PARSE_ERROR`
+- [x] Keep metadata validation failures as `SCHEMA_ERROR`
+- [x] Add warning-code test coverage
 
 ### Explicitly out of scope
 - [ ] No extension model alignment changes
 - [ ] No CLI process smoke tests
 
 ## Files Touched
-- [ ] src/infrastructure/fs/issue-repository.ts
-- [ ] tests/integration/validate-cli.behavior.test.ts
+- [x] src/infrastructure/fs/issue-repository.ts
+- [x] tests/integration/validate-cli.behavior.test.ts
 
 ## Requirements Mapping
-- [ ] FR-018
-- [ ] Contract: FileWarning enum includes `PARSE_ERROR`
+- [x] FR-018
+- [x] Contract: FileWarning enum includes `PARSE_ERROR`
 
 ## Implementation Checklist
-- [ ] Warning code mapping is deterministic
-- [ ] Existing PATH_MISMATCH behavior preserved
+- [x] Warning code mapping is deterministic
+- [x] Existing PATH_MISMATCH behavior preserved
 
 ## Test Checklist
-- [ ] Add malformed YAML/front-matter parse failure case
-- [ ] Assert warning code `PARSE_ERROR`
-- [ ] `npm test` passes
+- [x] Add malformed YAML/front-matter parse failure case
+- [x] Assert warning code `PARSE_ERROR`
+- [x] `npm test` passes
 
 ## Acceptance Criteria
-- [ ] Invalid YAML/front-matter returns `PARSE_ERROR`
-- [ ] Missing required metadata returns `SCHEMA_ERROR`
+- [x] Invalid YAML/front-matter returns `PARSE_ERROR`
+- [x] Missing required metadata returns `SCHEMA_ERROR`

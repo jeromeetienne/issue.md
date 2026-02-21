@@ -100,27 +100,42 @@ export class IssueRepository {
 		const warnings: FileWarning[] = [];
 
 		for (const file of files) {
+			let parsed: { metadata: IssueMetadata; body: string };
 			try {
 				const raw = await fs.readFile(file, 'utf8');
-				const parsed = parseMarkdownDocument<IssueMetadata>(raw);
-				const metadata = validateIssue(parsed.metadata);
-				const pathId = basename(file).split('-')[0];
-				if (pathId !== metadata.id) {
-					warnings.push({
-						path: file,
-						code: 'PATH_MISMATCH',
-						message: `Path id ${pathId} differs from front matter id ${metadata.id}`
-					});
-					continue;
-				}
-				issues.push({ metadata, body: parsed.body, path: file });
+				parsed = parseMarkdownDocument<IssueMetadata>(raw);
+			} catch (error: any) {
+				warnings.push({
+					path: file,
+					code: 'PARSE_ERROR',
+					message: error?.message ?? 'invalid issue file syntax'
+				});
+				continue;
+			}
+
+			let metadata: IssueMetadata;
+			try {
+				metadata = validateIssue(parsed.metadata);
 			} catch (error: any) {
 				warnings.push({
 					path: file,
 					code: 'SCHEMA_ERROR',
 					message: error?.message ?? 'invalid issue file'
 				});
+				continue;
 			}
+
+			const pathId = basename(file).split('-')[0];
+			if (pathId !== metadata.id) {
+				warnings.push({
+					path: file,
+					code: 'PATH_MISMATCH',
+					message: `Path id ${pathId} differs from front matter id ${metadata.id}`
+				});
+				continue;
+			}
+
+			issues.push({ metadata, body: parsed.body, path: file });
 		}
 
 		return {
