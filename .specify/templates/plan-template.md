@@ -31,7 +31,14 @@
 
 *GATE: Must pass before Phase 0 research. Re-check after Phase 1 design.*
 
-[Gates determined based on constitution file]
+- **File-system native**: The design stores issues as repository files and keeps generated artifacts
+  non-canonical.
+- **Human + machine format**: The issue format is Markdown with deterministic front matter parsing
+  rules.
+- **Metadata contract stability**: Schema changes are classified (breaking/non-breaking) and include
+  migration guidance.
+- **Interface parity**: If CLI and web are both in scope, parity of core operations is specified.
+- **Automation coverage**: Plan includes unit/integration validation for parsing, schema, and lifecycle.
 
 ## Project Structure
 

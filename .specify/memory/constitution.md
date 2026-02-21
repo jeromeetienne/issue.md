@@ -1,50 +1,96 @@
-# [PROJECT_NAME] Constitution
-<!-- Example: Spec Constitution, TaskFlow Constitution, etc. -->
+<!--
+Sync Impact Report
+- Version change: template-unset → 1.0.0
+- Modified principles:
+	- Principle 1 placeholder → I. File-System Native Issues
+	- Principle 2 placeholder → II. Human-Readable, Machine-Parseable Format
+	- Principle 3 placeholder → III. Stable Metadata Contract
+	- Principle 4 placeholder → IV. Interface Parity (CLI and Web)
+	- Principle 5 placeholder → V. Automation and Validation First
+- Added sections:
+	- Section 2 placeholder → Data and Repository Constraints
+	- Section 3 placeholder → Delivery Workflow and Quality Gates
+- Removed sections: None
+- Templates requiring updates:
+	- ✅ updated: .specify/templates/plan-template.md
+	- ✅ updated: .specify/templates/spec-template.md
+	- ✅ updated: .specify/templates/tasks-template.md
+	- ⚠ pending: .specify/templates/commands/*.md (directory not present)
+- Deferred items:
+	- TODO(RATIFICATION_DATE): original ratification date is not available in repository history.
+-->
+
+# Issue.md Constitution
 
 ## Core Principles
 
-### [PRINCIPLE_1_NAME]
-<!-- Example: I. Library-First -->
-[PRINCIPLE_1_DESCRIPTION]
-<!-- Example: Every feature starts as a standalone library; Libraries must be self-contained, independently testable, documented; Clear purpose required - no organizational-only libraries -->
+### I. File-System Native Issues
+Issues MUST be stored as files in a repository-managed directory structure, not as opaque
+records in an external system. Each issue MUST remain portable through normal file operations
+(copy, diff, merge, backup) and MUST be addressable by stable paths.
+Rationale: the product goal is local-first issue management compatible with Git workflows.
 
-### [PRINCIPLE_2_NAME]
-<!-- Example: II. CLI Interface -->
-[PRINCIPLE_2_DESCRIPTION]
-<!-- Example: Every library exposes functionality via CLI; Text in/out protocol: stdin/args → stdout, errors → stderr; Support JSON + human-readable formats -->
+### II. Human-Readable, Machine-Parseable Format
+Every issue document MUST be valid Markdown with structured front matter that can be parsed
+deterministically by automation. The body MUST remain directly editable by humans without
+special tooling, and parsing rules MUST be documented and testable.
+Rationale: the format must support both manual authoring and reliable automation.
 
-### [PRINCIPLE_3_NAME]
-<!-- Example: III. Test-First (NON-NEGOTIABLE) -->
-[PRINCIPLE_3_DESCRIPTION]
-<!-- Example: TDD mandatory: Tests written → User approved → Tests fail → Then implement; Red-Green-Refactor cycle strictly enforced -->
+### III. Stable Metadata Contract
+Issue metadata keys, required fields, and allowed value types MUST be versioned as a public
+contract. Contract changes MUST include migration guidance and backward-compatibility policy.
+Any breaking schema change MUST be accompanied by validation and upgrade tooling.
+Rationale: stable contracts prevent data drift and preserve long-term repository integrity.
 
-### [PRINCIPLE_4_NAME]
-<!-- Example: IV. Integration Testing -->
-[PRINCIPLE_4_DESCRIPTION]
-<!-- Example: Focus areas requiring integration tests: New library contract tests, Contract changes, Inter-service communication, Shared schemas -->
+### IV. Interface Parity (CLI and Web)
+If both CLI and web interfaces exist, they MUST implement the same core issue operations and
+honor the same validation rules and state transitions. Behavior differences MUST be treated as
+defects unless explicitly documented as intentional constraints.
+Rationale: users must be able to switch interfaces without data loss or semantic mismatch.
 
-### [PRINCIPLE_5_NAME]
-<!-- Example: V. Observability, VI. Versioning & Breaking Changes, VII. Simplicity -->
-[PRINCIPLE_5_DESCRIPTION]
-<!-- Example: Text I/O ensures debuggability; Structured logging required; Or: MAJOR.MINOR.BUILD format; Or: Start simple, YAGNI principles -->
+### V. Automation and Validation First
+Parsing, validation, and issue lifecycle operations MUST be covered by automated tests at unit
+and integration levels before release. CI MUST fail on schema-invalid fixtures and contract
+regressions. Manual-only verification is insufficient for merge approval.
+Rationale: automation is required to maintain correctness as tooling and schema evolve.
 
-## [SECTION_2_NAME]
-<!-- Example: Additional Constraints, Security Requirements, Performance Standards, etc. -->
+## Data and Repository Constraints
 
-[SECTION_2_CONTENT]
-<!-- Example: Technology stack requirements, compliance standards, deployment policies, etc. -->
+- Canonical issue files MUST include front matter for identity, status, timestamps, and
+	authorship fields required by the schema contract.
+- Timestamps MUST use ISO 8601 date or datetime formats; identifiers MUST be unique within the
+	repository.
+- File writes MUST be deterministic to minimize unnecessary diffs (stable field order and line
+	ending policy).
+- Any generated artifacts (indexes, caches, exports) MUST be reproducible and MUST NOT be the
+	source of truth.
 
-## [SECTION_3_NAME]
-<!-- Example: Development Workflow, Review Process, Quality Gates, etc. -->
+## Delivery Workflow and Quality Gates
 
-[SECTION_3_CONTENT]
-<!-- Example: Code review requirements, testing gates, deployment approval process, etc. -->
+- Feature specs MUST define issue lifecycle changes, metadata impacts, and compatibility plan.
+- Implementation plans MUST include explicit constitution checks for parseability, contract
+	versioning, interface parity, and automated validation coverage.
+- Task breakdowns MUST include schema-validation tasks and contract/integration test tasks when
+	issue behavior changes.
+- Pull requests MUST include evidence of tests covering parsing and lifecycle operations.
 
 ## Governance
-<!-- Example: Constitution supersedes all other practices; Amendments require documentation, approval, migration plan -->
 
-[GOVERNANCE_RULES]
-<!-- Example: All PRs/reviews must verify compliance; Complexity must be justified; Use [GUIDANCE_FILE] for runtime development guidance -->
+This constitution overrides conflicting project conventions for issue format, lifecycle, and
+tooling behavior.
 
-**Version**: [CONSTITUTION_VERSION] | **Ratified**: [RATIFICATION_DATE] | **Last Amended**: [LAST_AMENDED_DATE]
-<!-- Example: Version: 2.1.1 | Ratified: 2025-06-13 | Last Amended: 2025-07-16 -->
+Amendment procedure:
+1. Propose a change with rationale, migration impact, and affected principles/sections.
+2. Review proposal with maintainers and document approval in repository history.
+3. Update dependent templates and guidance docs in the same change set.
+
+Versioning policy (semantic versioning):
+- MAJOR: remove or redefine principles/governance in a backward-incompatible way.
+- MINOR: add a principle/section or materially expand mandatory guidance.
+- PATCH: clarifications, wording, or non-semantic edits.
+
+Compliance review expectations:
+- Every plan and PR MUST include a constitution compliance check.
+- Reviewers MUST block changes that violate mandatory rules without approved amendment.
+
+**Version**: 1.0.0 | **Ratified**: 2026-02-21 | **Last Amended**: 2026-02-21

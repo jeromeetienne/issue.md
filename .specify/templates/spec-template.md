@@ -90,6 +90,13 @@
 - **FR-004**: System MUST [data requirement, e.g., "persist user preferences"]
 - **FR-005**: System MUST [behavior, e.g., "log all security events"]
 
+### Issue Document Contract *(mandatory for this project)*
+
+- Define required front matter fields, field types, and validation rules.
+- Define canonical file naming/path strategy for issues.
+- State compatibility impact of schema changes (breaking vs non-breaking).
+- If behavior differs between CLI and web, document reason and acceptance impact.
+
 *Example of marking unclear requirements:*
 
 - **FR-006**: System MUST authenticate users via [NEEDS CLARIFICATION: auth method not specified - email/password, SSO, OAuth?]
