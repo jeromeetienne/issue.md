@@ -10,34 +10,34 @@
 
 ## Scope
 ### Included changes
-- [ ] Extend update patch type with optional `status`
-- [ ] Add transition validation when status present
-- [ ] Add CLI option `--status <open|in_progress|closed>`
+- [x] Extend update patch type with optional `status`
+- [x] Add transition validation when status present
+- [x] Add CLI option `--status <open|in_progress|closed>`
 
 ### Explicitly out of scope
 - [ ] No schema extension model changes
 - [ ] No comment validation expansion
 
 ## Files Touched
-- [ ] src/application/use-cases/issue/get-update-issue.ts
-- [ ] src/cli/commands/issue/index.ts
-- [ ] tests/integration/issue-cli.lifecycle.test.ts
+- [x] src/application/use-cases/issue/get-update-issue.ts
+- [x] src/cli/commands/issue/index.ts
+- [x] tests/integration/issue-cli.lifecycle.test.ts
 
 ## Requirements Mapping
-- [ ] FR-006
-- [ ] FR-007
-- [ ] Contract: UpdateIssueRequest status support
+- [x] FR-006
+- [x] FR-007
+- [x] Contract: UpdateIssueRequest status support
 
 ## Implementation Checklist
-- [ ] `updated_at` changes when status changes
-- [ ] Invalid transitions fail with `VALIDATION_ERROR`
-- [ ] Existing title/body patch behavior preserved
+- [x] `updated_at` changes when status changes
+- [x] Invalid transitions fail with `VALIDATION_ERROR`
+- [x] Existing title/body patch behavior preserved
 
 ## Test Checklist
-- [ ] Add/extend integration test for `issue edit --status`
-- [ ] Add invalid transition assertion
-- [ ] `npm test` passes
+- [x] Add/extend integration test for `issue edit --status`
+- [x] Add invalid transition assertion
+- [x] `npm test` passes
 
 ## Acceptance Criteria
-- [ ] `issue edit <id> --status in_progress` works from open
-- [ ] Invalid transitions return `VALIDATION_ERROR`
+- [x] `issue edit <id> --status in_progress` works from open
+- [x] Invalid transitions return `VALIDATION_ERROR`

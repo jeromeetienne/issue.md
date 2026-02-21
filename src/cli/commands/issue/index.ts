@@ -44,10 +44,12 @@ export const buildIssueCommand = (): Command => {
 		.command('edit <id>')
 		.option('--title <title>')
 		.option('--body <body>')
+		.option('--status <status>')
 		.action(async (id, options) => {
 			const result = await updateIssue(process.cwd(), id, {
 				title: options.title,
-				body: options.body
+				body: options.body,
+				status: options.status
 			});
 			printIssueRecord('Issue updated', result);
 		});
