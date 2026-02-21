@@ -1,0 +1,45 @@
+openapi: 3.0.3
+info:
+  title: issue.md Website Pages Availability Contract
+  version: 1.0.0
+  description: |
+    Contract used for GitHub Pages publish verification of the static docs site.
+    This contract models expected public HTTP behavior for primary user-facing routes.
+servers:
+  - url: https://jeromeetienne.github.io/issue.md
+    description: GitHub Pages project site base URL
+paths:
+  /:
+    get:
+      summary: Home page is reachable
+      operationId: getHomePage
+      responses:
+        "200":
+          description: Home page HTML rendered successfully
+          content:
+            text/html:
+              schema:
+                type: string
+  /docs:
+    get:
+      summary: Docs page is reachable
+      operationId: getDocsPage
+      responses:
+        "200":
+          description: Docs page HTML rendered successfully
+          content:
+            text/html:
+              schema:
+                type: string
+  /demo:
+    get:
+      summary: Demo page is reachable
+      operationId: getDemoPage
+      responses:
+        "200":
+          description: Demo page HTML rendered successfully
+          content:
+            text/html:
+              schema:
+                type: string
+components: {}

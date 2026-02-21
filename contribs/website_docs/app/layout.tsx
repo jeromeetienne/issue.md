@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap-icons/font/bootstrap-icons.css';
 import './globals.css';
 
 export const metadata: Metadata = {
@@ -28,6 +29,15 @@ export default function RootLayout({
 							<Link href="/demo" className="nav-link px-2 py-1">
 								CLI Demo
 							</Link>
+							<a
+								href="https://github.com/jeromeetienne/issue.md"
+								className="nav-link px-2 py-1 d-inline-flex align-items-center gap-1"
+								target="_blank"
+								rel="noreferrer"
+							>
+								<i className="bi bi-github" aria-hidden="true" />
+								GitHub
+							</a>
 						</nav>
 					</div>
 				</header>
