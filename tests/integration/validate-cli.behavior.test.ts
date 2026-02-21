@@ -15,4 +15,17 @@ describe('validate repository behavior', () => {
 		expect(report.validCount).toBe(1);
 		expect(report.warnings.length).toBeGreaterThan(0);
 	});
+
+	it('reports malformed comment files during validation', async () => {
+		const root = await makeTempWorkspace();
+		await createIssue({ rootDir: root, title: 'Valid', body: 'Body', author: 'alice' });
+		await fs.mkdir(join(root, 'comments', '0001'), { recursive: true });
+		await fs.writeFile(join(root, 'comments', '0001', '0001.md'), '---\nid: "0001"\n---\n', 'utf8');
+
+		const report = await validateRepository(root);
+		expect(report.validCount).toBe(1);
+		expect(report.warnings.length).toBeGreaterThan(0);
+		expect(report.warnings.some((warning) => warning.path.includes('comments/0001/0001.md'))).toBe(true);
+		expect(report.ok).toBe(false);
+	});
 });

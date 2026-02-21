@@ -1,6 +1,6 @@
 import { promises as fs } from 'node:fs';
 import { join, basename } from 'node:path';
-import type { CommentMetadata } from '../../domain/schema/types.js';
+import type { CommentMetadata, FileWarning } from '../../domain/schema/types.js';
 import { parseMarkdownDocument, stringifyMarkdownDocument } from '../markdown/document-codec.js';
 import { validateComment } from '../validation/schema-validator.js';
 import { atomicWriteFile } from './atomic-write.js';
@@ -50,5 +50,49 @@ export class CommentRepository {
 		}
 
 		return comments.sort((a, b) => a.metadata.id.localeCompare(b.metadata.id));
+	}
+
+	async validateAll(): Promise<{ validCount: number; warnings: FileWarning[] }> {
+		const commentsRoot = join(this.rootDir, 'comments');
+		await fs.mkdir(commentsRoot, { recursive: true });
+		const issueDirectories = await fs.readdir(commentsRoot, { withFileTypes: true });
+		const warnings: FileWarning[] = [];
+		let validCount = 0;
+
+		for (const directoryEntry of issueDirectories) {
+			if (!directoryEntry.isDirectory()) {
+				continue;
+			}
+			const issueId = directoryEntry.name;
+			const issueCommentsDir = join(commentsRoot, issueId);
+			const files = await scanMarkdownFiles(issueCommentsDir);
+
+			for (const file of files) {
+				try {
+					const raw = await fs.readFile(file, 'utf8');
+					const parsed = parseMarkdownDocument<CommentMetadata>(raw);
+					const metadata = validateComment(parsed.metadata);
+					assertCommentIssue(metadata, issueId);
+					const pathCommentId = basename(file).replace('.md', '');
+					if (pathCommentId !== metadata.id) {
+						warnings.push({
+							path: file,
+							code: 'PATH_MISMATCH',
+							message: `Path id ${pathCommentId} differs from front matter id ${metadata.id}`
+						});
+						continue;
+					}
+					validCount += 1;
+				} catch (error: any) {
+					warnings.push({
+						path: file,
+						code: 'SCHEMA_ERROR',
+						message: error?.message ?? 'invalid comment file'
+					});
+				}
+			}
+		}
+
+		return { validCount, warnings };
 	}
 }
