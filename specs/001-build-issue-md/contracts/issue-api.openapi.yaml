@@ -197,10 +197,9 @@ components:
           minLength: 1
         body:
           type: string
-        extensions:
-          type: object
-          additionalProperties: true
-          description: Maps `x_` prefixed extension keys.
+      additionalProperties:
+        type: true
+        description: Allows `x_` prefixed extension fields at top level.
     Comment:
       type: object
       required: [id, issue_id, created_at, author, body]
@@ -220,10 +219,9 @@ components:
           minLength: 1
         body:
           type: string
-        extensions:
-          type: object
-          additionalProperties: true
-          description: Maps `x_` prefixed extension keys.
+      additionalProperties:
+        type: true
+        description: Allows `x_` prefixed extension fields at top level.
     CreateIssueRequest:
       type: object
       required: [title, body, author]
@@ -236,9 +234,9 @@ components:
         author:
           type: string
           minLength: 1
-        extensions:
-          type: object
-          additionalProperties: true
+      additionalProperties:
+        type: true
+        description: Allows `x_` prefixed extension fields at top level.
     UpdateIssueRequest:
       type: object
       properties:
@@ -250,9 +248,9 @@ components:
         status:
           type: string
           enum: [open, in_progress, closed]
-        extensions:
-          type: object
-          additionalProperties: true
+      additionalProperties:
+        type: true
+        description: Allows `x_` prefixed extension fields at top level.
     CreateCommentRequest:
       type: object
       required: [body, author]
@@ -262,9 +260,9 @@ components:
         author:
           type: string
           minLength: 1
-        extensions:
-          type: object
-          additionalProperties: true
+      additionalProperties:
+        type: true
+        description: Allows `x_` prefixed extension fields at top level.
     FileWarning:
       type: object
       required: [path, code, message]
