@@ -24,13 +24,13 @@
 - [x] tests/integration/issue-cli.lifecycle.test.ts
 
 ## Requirements Mapping
-- [ ] FR-006
-- [ ] SC-004
+- [x] FR-006
+- [x] SC-004
 
 ## Implementation Checklist
 - [x] Uses existing transition guard logic
-- [ ] Keeps close/reopen behavior unchanged
-- [ ] Returns actionable error on invalid transition
+- [x] Keeps close/reopen behavior unchanged
+- [x] Returns actionable error on invalid transition
 
 ## Test Checklist
 - [x] Integration test includes `open -> in_progress -> closed -> open`
