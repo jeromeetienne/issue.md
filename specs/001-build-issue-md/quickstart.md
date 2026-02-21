@@ -63,8 +63,8 @@ npm run cli -- issue reopen 0001
 
 ### Add and list comments
 ```bash
-npm run cli -- issue comment add 0001 --author "bob" --body "Looks good"
-npm run cli -- issue comment list 0001
+npm run cli -- comment add 0001 --author "bob" --body "Looks good"
+npm run cli -- comment list 0001
 ```
 Expected:
 - Creates `comments/0001/0001.md` with required comment front matter
