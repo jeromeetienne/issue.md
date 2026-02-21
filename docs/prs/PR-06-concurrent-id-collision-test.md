@@ -10,29 +10,29 @@
 
 ## Scope
 ### Included changes
-- [ ] Convert conflict test to real concurrency race
-- [ ] Assert one success + one `ID_CONFLICT`
-- [ ] Assert retry guidance in error message
+- [x] Convert conflict test to real concurrency race
+- [x] Assert one success + one `ID_CONFLICT`
+- [x] Assert retry guidance in error message
 
 ### Explicitly out of scope
 - [ ] No implementation logic refactor unless test requires it
 - [ ] No CLI process-level assertions
 
 ## Files Touched
-- [ ] tests/integration/issue-cli.conflict.test.ts
+- [x] tests/integration/issue-cli.conflict.test.ts
 
 ## Requirements Mapping
-- [ ] FR-014
-- [ ] Edge case: concurrent create collision
+- [x] FR-014
+- [x] Edge case: concurrent create collision
 
 ## Implementation Checklist
-- [ ] Uses `Promise.allSettled` (or equivalent) for concurrent attempts
-- [ ] Avoids flaky timing assumptions
+- [x] Uses `Promise.allSettled` (or equivalent) for concurrent attempts
+- [x] Avoids flaky timing assumptions
 
 ## Test Checklist
-- [ ] Deterministically validates conflict behavior
-- [ ] `npm test` passes
+- [x] Deterministically validates conflict behavior
+- [x] `npm test` passes
 
 ## Acceptance Criteria
-- [ ] Under concurrent creates, one operation fails with `ID_CONFLICT`
-- [ ] Error message includes retry guidance
+- [x] Under concurrent creates, one operation fails with `ID_CONFLICT`
+- [x] Error message includes retry guidance
