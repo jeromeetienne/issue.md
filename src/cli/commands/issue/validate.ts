@@ -1,11 +1,11 @@
 import { validateRepository } from '../../../application/use-cases/schema/validate-repository.js';
+import { printValidateReport } from '../../output.js';
 
 export const runValidate = async (rootDir: string) => {
 	const report = await validateRepository(rootDir);
+	printValidateReport(report);
 	if (report.ok) {
-		console.log(JSON.stringify(report, null, 2));
 		return;
 	}
-	console.log(JSON.stringify(report, null, 2));
 	process.exitCode = 2;
 };

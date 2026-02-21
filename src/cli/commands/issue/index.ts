@@ -7,6 +7,7 @@ import {
 	closeIssue,
 	reopenIssue
 } from '../../../application/use-cases/issue/change-issue-status.js';
+import { printIssueList, printIssueRecord } from '../../output.js';
 import { runValidate } from './validate.js';
 
 export const buildIssueCommand = (): Command => {
@@ -24,19 +25,19 @@ export const buildIssueCommand = (): Command => {
 				body: options.body,
 				author: options.author
 			});
-			console.log(JSON.stringify(created, null, 2));
+			printIssueRecord('Issue created', created);
 		});
 
 	issue.command('list').action(async () => {
 		const result = await listIssues(process.cwd());
-		console.log(JSON.stringify(result, null, 2));
+		printIssueList('Issues', result);
 	});
 
 	issue
 		.command('show <id>')
 		.action(async (id) => {
 			const result = await getIssue(process.cwd(), id);
-			console.log(JSON.stringify(result, null, 2));
+			printIssueRecord('Issue details', result);
 		});
 
 	issue
@@ -48,22 +49,22 @@ export const buildIssueCommand = (): Command => {
 				title: options.title,
 				body: options.body
 			});
-			console.log(JSON.stringify(result, null, 2));
+			printIssueRecord('Issue updated', result);
 		});
 
 	issue.command('close <id>').action(async (id) => {
 		const result = await closeIssue(process.cwd(), id);
-		console.log(JSON.stringify(result, null, 2));
+		printIssueRecord('Issue closed', result);
 	});
 
 	issue.command('start <id>').action(async (id) => {
 		const result = await startIssue(process.cwd(), id);
-		console.log(JSON.stringify(result, null, 2));
+		printIssueRecord('Issue started', result);
 	});
 
 	issue.command('reopen <id>').action(async (id) => {
 		const result = await reopenIssue(process.cwd(), id);
-		console.log(JSON.stringify(result, null, 2));
+		printIssueRecord('Issue reopened', result);
 	});
 
 	issue.command('validate').action(async () => runValidate(process.cwd()));

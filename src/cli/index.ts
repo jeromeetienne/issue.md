@@ -2,6 +2,7 @@ import { Command } from 'commander';
 import { AppError } from '../shared/errors/errors.js';
 import { buildIssueCommand } from './commands/issue/index.js';
 import { buildCommentCommand } from './commands/comment/index.js';
+import { printAppError, printUnexpectedError } from './output.js';
 
 const main = async () => {
 	const program = new Command();
@@ -13,9 +14,9 @@ const main = async () => {
 
 main().catch((error: unknown) => {
 	if (error instanceof AppError) {
-		console.error(`${error.code}: ${error.message}`);
+		printAppError(error.code, error.message);
 		process.exit(error.exitCode);
 	}
-	console.error(error);
+	printUnexpectedError(error);
 	process.exit(1);
 });
