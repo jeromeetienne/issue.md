@@ -1,6 +1,6 @@
 # Feature Specification: Website Docs GitHub Pages Publishing
 
-**Feature Branch**: `001-github-pages-publishing`  
+**Feature Branch**: `002-github-pages-publishing`  
 **Created**: 2026-02-21  
 **Status**: Draft  
 **Input**: User description: "make ./contribs/website_docs to be easily published in github pages"
@@ -55,7 +55,7 @@ As a maintainer, I can follow concise repository instructions to publish and ver
 - Deployment workflow runs but GitHub Pages is not enabled for the repository.
 - Deployment workflow has insufficient repository permissions for Pages deployment.
 - Site renders correctly locally but published route paths fail under repository-scoped URL path.
-- Non-website changes should not require manual intervention for ongoing website availability.
+- Non-website changes MUST NOT trigger deployment; deployment triggers are limited to changes in `contribs/website_docs/**` and `.github/workflows/website-docs-pages.yml`.
 - Concurrent updates to docs should resolve as standard repository merges and produce a deterministic latest published state.
 
 ## Requirements *(mandatory)*
@@ -69,6 +69,7 @@ As a maintainer, I can follow concise repository instructions to publish and ver
 - **FR-005**: The repository MUST document the minimal setup and verification steps required to enable and maintain publishing.
 - **FR-006**: The publishing workflow MUST avoid requiring maintainers to manually copy, upload, or commit generated output artifacts.
 - **FR-007**: A successful deployment MUST make the latest default-branch website content publicly accessible at the repository’s Pages URL.
+- **FR-008**: Deployment MUST record and expose the deployed commit SHA, and it MUST match the triggering default-branch commit SHA.
 
 ### Issue Document Contract *(mandatory for this project)*
 
@@ -99,7 +100,7 @@ As a maintainer, I can follow concise repository instructions to publish and ver
 
 ### Measurable Outcomes
 
-- **SC-001**: 100% of successful default-branch publish runs result in a reachable public Pages site for the latest content revision.
+- **SC-001**: Over the most recent 20 default-branch publish runs, at least 19 runs MUST complete successfully and expose the expected repository Pages URL.
 - **SC-002**: Maintainers can complete first-time Pages enablement and first publish in under 15 minutes using only repository documentation.
-- **SC-003**: In validation checks, primary pages (home, docs, demo) load without missing asset errors in at least 95% of publish verifications.
+- **SC-003**: For each publish run, CI verification MUST pass 100% checks for `/`, `/docs`, and `/demo` route outputs and required core CSS/icon assets before deployment.
 - **SC-004**: For deployment failures, maintainers can identify root-cause stage from workflow logs in under 5 minutes.
