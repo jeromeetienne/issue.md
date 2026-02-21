@@ -1,0 +1,7 @@
+- clean the code
+- see about creating a new feature branch for the new features
+  - the website in next.js
+- how to ask what is missing in the codebase to the AI
+- merge the current branch into main
+- add a README.md file to the project
+- install specify globally
