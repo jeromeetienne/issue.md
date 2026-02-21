@@ -9,24 +9,24 @@ const validateIssueSchema = ajv.compile(issueSchema);
 const validateCommentSchema = ajv.compile(commentSchema);
 
 const formatErrors = (errors: unknown): string => {
-  if (!Array.isArray(errors)) {
-    return 'unknown validation error';
-  }
-  return errors
-    .map((error: any) => `${error.instancePath || '/'} ${error.message}`)
-    .join('; ');
+	if (!Array.isArray(errors)) {
+		return 'unknown validation error';
+	}
+	return errors
+		.map((error: any) => `${error.instancePath || '/'} ${error.message}`)
+		.join('; ');
 };
 
 export const validateIssue = (metadata: unknown): IssueMetadata => {
-  if (!validateIssueSchema(metadata)) {
-    throw new ValidationError(formatErrors(validateIssueSchema.errors));
-  }
-  return metadata as IssueMetadata;
+	if (!validateIssueSchema(metadata)) {
+		throw new ValidationError(formatErrors(validateIssueSchema.errors));
+	}
+	return metadata as IssueMetadata;
 };
 
 export const validateComment = (metadata: unknown): CommentMetadata => {
-  if (!validateCommentSchema(metadata)) {
-    throw new ValidationError(formatErrors(validateCommentSchema.errors));
-  }
-  return metadata as CommentMetadata;
+	if (!validateCommentSchema(metadata)) {
+		throw new ValidationError(formatErrors(validateCommentSchema.errors));
+	}
+	return metadata as CommentMetadata;
 };

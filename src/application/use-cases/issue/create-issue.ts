@@ -10,16 +10,16 @@ export interface CreateIssueInput {
 }
 
 export const createIssue = async (input: CreateIssueInput) => {
-  const repository = new IssueRepository(join(input.rootDir));
-  const timestamp = nowUtc();
-  return repository.create(
-    {
-      title: input.title,
-      status: 'open',
-      created_at: timestamp,
-      updated_at: timestamp,
-      author: input.author
-    },
-    input.body
-  );
+	const repository = new IssueRepository(join(input.rootDir));
+	const timestamp = nowUtc();
+	return repository.create(
+		{
+			title: input.title,
+			status: 'open',
+			created_at: timestamp,
+			updated_at: timestamp,
+			author: input.author
+		},
+		input.body
+	);
 };

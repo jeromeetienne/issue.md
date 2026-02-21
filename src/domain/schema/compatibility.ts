@@ -8,5 +8,5 @@ export interface SchemaChange {
 }
 
 export const classifySchemaChange = (change: SchemaChange): ChangeType => {
-  return change.change_type;
+	return change.change_type;
 };
